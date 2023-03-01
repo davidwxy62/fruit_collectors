@@ -79,10 +79,9 @@ class VisionNode(Node):
       self.get_logger().info(f'Collector {id} has reached the base')
     else:
       del self.enroute[id]
-      del self.remaining_fruits[end]
       self.collectors[id][1] = list(end)
       self.get_logger().info(f'{len(self.remaining_fruits)} fruits remaining')
-      if (len(self.remaining_fruits) == 0):
+      if len(self.remaining_fruits) == 0 and len(self.enroute) == 0:
         self.restart()
         return
     self.move_collector()
@@ -166,6 +165,7 @@ class VisionNode(Node):
           min_end = end
       if min_end is not None:
         self.enroute[id] = (start, min_end)
+        del self.remaining_fruits[min_end]
         self.movePublisher.publish(String(data=f'{id} {min_end[0]} {min_end[1]}'))
         self.get_logger().info(f'moving collector {id} to {min_end}')
         if not all:
