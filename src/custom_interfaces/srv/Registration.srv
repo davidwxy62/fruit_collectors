@@ -1,0 +1,8 @@
+string action
+string id
+string x
+string y
+string fruit
+---
+string status
+string msg
